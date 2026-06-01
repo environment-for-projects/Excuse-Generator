@@ -134,7 +134,7 @@ def render_result(container: ui.column, data: dict) -> None:
                 ui.button(
                     icon="content_copy",
                     on_click=lambda t=excuse: copy_excuse(t),
-                ).props("flat round dense color=grey-9").tooltip("Скопировать")
+                ).props("flat round dense color=grey-9").tooltip("Скопировать и отправить боссу")
             ui.label(excuse).classes(BODY)
 
         ui.separator().classes("my-2 sm:my-2.5 bg-gray-200")
