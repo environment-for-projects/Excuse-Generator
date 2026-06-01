@@ -1,0 +1,14 @@
+[project]
+name = "excuse-generator"
+version = "0.1.0"
+description = "MVP: генератор правдоподобных отмазок (FastAPI + OpenAI + NiceGUI)"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.136.3",
+    "httpx>=0.28.1",
+    "nicegui>=3.12.1",
+    "openai>=2.38.0",
+    "python-dotenv>=1.2.2",
+    "uvicorn>=0.48.0",
+]
