@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class ExcuseRequest(BaseModel):
@@ -7,12 +7,33 @@ class ExcuseRequest(BaseModel):
     """
 
     category: str = Field(..., min_length=1, max_length=80, description="Категория ситуации оправдания")
-    reason: str = Field(..., min_length=3, max_length=300, description="Почему так получилось")
+    reason: str | None = Field(
+        default=None,
+        max_length=300,
+        description="Почему так получилось, опционально",
+    )
     person_context: str | None = Field(
         default=None,
         max_length=700,
-        description="Краткий контекст о пользователе, опционально"
+        description="Краткий контекст о пользователе, опционально",
     )
+
+    @field_validator("reason", mode="before")
+    @classmethod
+    def normalize_reason(cls, value: object) -> str | None:
+        if value is None:
+            return None
+        if isinstance(value, str):
+            stripped = value.strip()
+            return stripped or None
+        return value
+
+    @field_validator("reason")
+    @classmethod
+    def validate_reason_length(cls, value: str | None) -> str | None:
+        if value is not None and len(value) < 3:
+            raise ValueError("Причина должна содержать минимум 3 символа")
+        return value
 
 
 class ExcuseDraft(BaseModel):

@@ -107,6 +107,7 @@ class PlausibilityGrader:
         """.strip()
 
     def _build_user_prompt(self, request: ExcuseRequest, draft: ExcuseDraft) -> str:
+        reason = request.reason or "Причина не указана."
         person_context = request.person_context or "Контекст не указан."
 
         return f"""
@@ -116,7 +117,7 @@ class PlausibilityGrader:
         {request.category}
 
         Исходная причина пользователя:
-        {request.reason}
+        {reason}
 
         Контекст пользователя:
         {person_context}

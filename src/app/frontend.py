@@ -58,7 +58,7 @@ async def load_categories() -> list[str]:
 
 async def request_excuse(
     category: str,
-    reason: str,
+    reason: str | None,
     person_context: str | None,
 ) -> dict:
     async with httpx.AsyncClient(timeout=120.0) as client:
@@ -101,7 +101,7 @@ def build_header() -> None:
             "text-xl sm:text-3xl font-semibold text-gray-900 tracking-tight"
         )
         ui.label(
-            "Выбери ситуацию, добавь причину и контекст — "
+            "Выбери ситуацию — причину и контекст можно добавить по желанию. "
             "AI сформирует правдоподобное сообщение."
         ).classes("text-gray-500 text-xs sm:text-sm leading-relaxed max-w-2xl")
         ui.chip("Generator + LLM Grader", icon="auto_awesome").props(
@@ -173,10 +173,11 @@ async def handle_generate(
         ui.notify("Выберите категорию", type="warning")
         return
 
-    reason = (reason_input.value or "").strip()
-    if len(reason) < 3:
-        ui.notify("Опишите причину — минимум 3 символа", type="warning")
+    reason_raw = (reason_input.value or "").strip()
+    if 0 < len(reason_raw) < 3:
+        ui.notify("Если указываете причину — минимум 3 символа", type="warning")
         return
+    reason = reason_raw or None
 
     person_context = (person_context_input.value or "").strip() or None
 
@@ -250,7 +251,7 @@ def build_page(category_options: list[str]) -> None:
                     ).classes("w-full").props("outlined dense")
 
                     reason_input = ui.textarea(
-                        label="Почему так получилось",
+                        label="Почему так получилось (опционально)",
                         placeholder="Например: проспал, потому что ночью доделывал проект",
                     ).classes("w-full").props("outlined dense autogrow")
 
