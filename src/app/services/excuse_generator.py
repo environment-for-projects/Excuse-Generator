@@ -64,8 +64,8 @@ class ExcuseGenerator:
         """.strip()
 
     def _build_user_prompt(self, request: ExcuseRequest) -> str:
-        reason = request.reason or "Причина не указана."
-        person_context = request.person_context or "Контекст не указан."
+        reason = request.reason or "Не указана — сформулируй общую отмазку по категории, без лишних деталей."
+        person_context = request.person_context or "Не указан — не придумывай факты о человеке."
 
         return f"""
 Категория ситуации:

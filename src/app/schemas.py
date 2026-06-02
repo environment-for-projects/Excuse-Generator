@@ -10,7 +10,7 @@ class ExcuseRequest(BaseModel):
     reason: str | None = Field(
         default=None,
         max_length=300,
-        description="Почему так получилось, опционально",
+        description="Ситуация и подсказка для отмазки",
     )
     person_context: str | None = Field(
         default=None,
